@@ -186,7 +186,7 @@ confusionMatrix(myValidation$classe,predRF)
 <p>The accuracy is 73%, for the tree prediction, 93% for SVM, and 99% for random forest. RF is the winner and there is no point in increasing the number of trees, as shown in the pictures. We will focus on RF for in the variable analysis.</p>
 <pre><code class="language-R">plot(modFitRF,main=<span class="hljs-string">"No singificant improvement in RF fit for &gt;200 trees"</span>)
 </code></pre>
-<p><img src="https://github.com/BoKu123/PracticalMachineLearning-repo/blob/master/Images/Figure2NumberOfTreesInRandomForest.png" alt="Image of RandomForect"></p>
+<p><img src="Images/Figure2NumberOfTreesInRandomForest.png" alt="Image of RandomForect"></p>
 <h3><a id="Variable_analysis_226"></a>Variable analysis</h3>
 <p>Using the “importance” matrix from the RF prediciton in the analysis</p>
 <pre><code class="language-R">importanceDF &lt;- data.frame(importance(modFitRF)[,c(<span class="hljs-number">6</span>,<span class="hljs-number">7</span>)])
@@ -199,14 +199,14 @@ accuracyPlot&lt;-ggplot(data=importanceDFaccuSort, aes(x=Variable, y=MeanDecreas
   ylab(<span class="hljs-string">"Mean Decrease Accuracy"</span>)+xlab(<span class="hljs-string">""</span>)+geom_bar(stat=<span class="hljs-string">"identity"</span>,width=<span class="hljs-number">.7</span>)+coord_flip() 
 grid.draw(accuracyPlot)
 </code></pre>
-<p><img src="https://github.com/BoKu123/PracticalMachineLearning-repo/blob/master/Images/Figure3VariablesAndAccuracy.png" alt="Image of Accuracy"></p>
+<p><img src="Images/Figure3VariablesAndAccuracy.png" alt="Image of Accuracy"></p>
 <p>Order by Giniand create a plot to identify “heavy hitters”</p>
 <pre><code class="language-R">importanceDFginiSort &lt;- transform(importanceDF, Variable = reorder(Variable, MeanDecreaseGini))
 giniPlot=ggplot(data=importanceDFginiSort, aes(x=Variable, y=MeanDecreaseGini)) + 
   ylab(<span class="hljs-string">"Mean Decrease Gini"</span>)+xlab(<span class="hljs-string">""</span>)+geom_bar(stat=<span class="hljs-string">"identity"</span>,width=<span class="hljs-number">.7</span>)+ coord_flip() 
 grid.draw(giniPlot)
 </code></pre>
-<p><img src="https://github.com/BoKu123/PracticalMachineLearning-repo/blob/master/Images/Figure4VariablesAndGini.png" alt="Image of Gini"></p>
+<p><img src="Images/Figure4VariablesAndGini.png" alt="Image of Gini"></p>
 <h3><a id="Apply_prediction_to_the_test_data_set_254"></a>Apply prediction to the test data set</h3>
 <pre><code class="language-R">rawTesting &lt;- read.csv(<span class="hljs-string">"pml-testing.csv"</span>,na.strings = c(<span class="hljs-string">"NA"</span>, <span class="hljs-string">""</span>))
 </code></pre>

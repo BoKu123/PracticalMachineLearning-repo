@@ -182,12 +182,13 @@ confusionMatrix(myValidation$classe,predRF)
 <span class="hljs-comment">## Detection Prevalence   0.2845   0.1935   0.1744   0.1639   0.1838</span>
 <span class="hljs-comment">## Balanced Accuracy      0.9969   0.9966   0.9919   0.9954   0.9986</span>
 </code></pre>
-<h3><a id="Accuracy_218"></a>Accuracy</h3>
+<h3><a id="Accuracy_and_out_of_sample_error_218"></a>Accuracy and out of sample error</h3>
 <p>The accuracy is 73%, for the tree prediction, 93% for SVM, and 99% for random forest. RF is the winner and there is no point in increasing the number of trees, as shown in the pictures. We will focus on RF for in the variable analysis.</p>
+<p>The out of sample error for RF is 1-0.9935=0.0065, or 0.65%.</p>
 <pre><code class="language-R">plot(modFitRF,main=<span class="hljs-string">"No singificant improvement in RF fit for &gt;200 trees"</span>)
 </code></pre>
 <p><img src="Images/Figure2NumberOfTreesInRandomForest.png" alt="Image of RandomForect"></p>
-<h3><a id="Variable_analysis_226"></a>Variable analysis</h3>
+<h3><a id="Variable_analysis_228"></a>Variable analysis</h3>
 <p>Using the “importance” matrix from the RF prediciton in the analysis</p>
 <pre><code class="language-R">importanceDF &lt;- data.frame(importance(modFitRF)[,c(<span class="hljs-number">6</span>,<span class="hljs-number">7</span>)])
 importanceDF &lt;- cbind(rownames(importanceDF),importanceDF)
@@ -207,7 +208,7 @@ giniPlot=ggplot(data=importanceDFginiSort, aes(x=Variable, y=MeanDecreaseGini)) 
 grid.draw(giniPlot)
 </code></pre>
 <p><img src="Images/Figure4VariablesAndGini.png" alt="Image of Gini"></p>
-<h3><a id="Apply_prediction_to_the_test_data_set_254"></a>Apply prediction to the test data set</h3>
+<h3><a id="Apply_prediction_to_the_test_data_set_256"></a>Apply prediction to the test data set</h3>
 <pre><code class="language-R">rawTesting &lt;- read.csv(<span class="hljs-string">"pml-testing.csv"</span>,na.strings = c(<span class="hljs-string">"NA"</span>, <span class="hljs-string">""</span>))
 </code></pre>
 <p>Use the same subset of columns as in the training dataset (except the “classe” variable)</p>

@@ -2,7 +2,6 @@
 
 ## Prediction Assignment Writeup
 
-###
 ### Introduction
   
 Using wearable devices it is now possible to collect data about personal activity. One thing that people regularly do is quantify how much of a particular activity they do, but they rarely quantify how well they do it. In this project, our goal is to use data from accelerometers on the belt, forearm, arm, and dumbell of 6 participants. They were asked to perform barbell lifts correctly and incorrectly in 5 different ways. More information is available from the website here: http://groupware.les.inf.puc-rio.br/har (see the section on the Weight Lifting Exercise Dataset).
@@ -66,7 +65,7 @@ hist(as.integer(subTidyTraining[subTidyTraining$user_name==5,]$classe),main="use
 hist(as.integer(subTidyTraining[subTidyTraining$user_name==6,]$classe),main="user 6",xlab="classe",breaks=seq(0.5,5.5,l=6))
 par(mfrow=c(1,1))
 ```
-![Image of Histogram](https://github.com/BoKu123/PracticalMachineLearning-repo/blob/master/Images/Figure1UserHistogram.png)
+![Image of Histogram](Images/Figure1UserHistogram.png)
 
 Remove the user_name variable since (i) the prediction should work for other people and (ii) there is 
  no strong correlation with classe. Check that "classe" is now in column 53.
@@ -217,13 +216,15 @@ confusionMatrix(myValidation$classe,predRF)
 ## Balanced Accuracy      0.9969   0.9966   0.9919   0.9954   0.9986
 ```
 
-### Accuracy
+### Accuracy and out of sample error
 The accuracy is 73%, for the tree prediction, 93% for SVM, and 99% for random forest. RF is the winner and there is no point in increasing the number of trees, as shown in the pictures. We will focus on RF for in the variable analysis.
+
+The out of sample error for RF is 1-0.9935=0.0065, or 0.65%.
 ```R
 plot(modFitRF,main="No singificant improvement in RF fit for >200 trees")
 ```
 
-![Image of RandomForect](https://github.com/BoKu123/PracticalMachineLearning-repo/blob/master/Images/Figure2NumberOfTreesInRandomForest.png)
+![Image of RandomForect](Images/Figure2NumberOfTreesInRandomForest.png)
 
 ### Variable analysis
 
@@ -241,7 +242,7 @@ accuracyPlot<-ggplot(data=importanceDFaccuSort, aes(x=Variable, y=MeanDecreaseAc
   ylab("Mean Decrease Accuracy")+xlab("")+geom_bar(stat="identity",width=.7)+coord_flip() 
 grid.draw(accuracyPlot)
 ```
-![Image of Accuracy](https://github.com/BoKu123/PracticalMachineLearning-repo/blob/master/Images/Figure3VariablesAndAccuracy.png)
+![Image of Accuracy](Images/Figure3VariablesAndAccuracy.png)
 
 
 Order by Giniand create a plot to identify "heavy hitters"
@@ -251,7 +252,7 @@ giniPlot=ggplot(data=importanceDFginiSort, aes(x=Variable, y=MeanDecreaseGini)) 
   ylab("Mean Decrease Gini")+xlab("")+geom_bar(stat="identity",width=.7)+ coord_flip() 
 grid.draw(giniPlot)
 ```
-![Image of Gini](https://github.com/BoKu123/PracticalMachineLearning-repo/blob/master/Images/Figure4VariablesAndGini.png)
+![Image of Gini](Images/Figure4VariablesAndGini.png)
 
 ### Apply prediction to the test data set
 ```R
